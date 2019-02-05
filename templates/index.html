@@ -49,6 +49,7 @@
 
         <!-- insert cloropleth map -->
         <div class="col-md-12 text-center" >
+        <!--here is the map object-->
             <svg width="850" height="531" viewBox="0 0 960 600" preserveAspectRatio="xMinYMin meet"></svg>
         </div>
       </div>
@@ -61,7 +62,7 @@
     <script src="https://d3js.org/topojson.v2.min.js"></script>
     <script>
     // https://macwright.org/2015/03/23/geojson-second-bite.html
-    // retrieve svg object from html DOM
+    // retrieve svg object from html DOM  ***Everything below is the D3 piece.
 
     var svg = d3.select("svg");
 
@@ -88,6 +89,7 @@
     var g = svg.append("g")
         .attr("class", "key")
         .attr("transform", "translate(0,40)");
+        // inserting the legend
 
     g.selectAll("rect")
       .data(color.range().map(function(d) {
@@ -100,29 +102,15 @@
 
     // load data
 
-    d3.queue()
+    *d3.queue()
         .defer(d3.json, "https://d3js.org/us-10m.v1.json")
-/*
-        .defer(d3.json, "/static/geojson/esri_us_rivers.geo.json", function(json) {
+        //pulls  in the shapes for the counties^^
+    
+    
 
-          // https://bl.ocks.org/andybarefoot/765c937c8599ef540e1e0b394ca89dc5
-          //riverGroup = svg.append("g").attr("id", "map");
+   
 
-          riverGroup = g
-
-          // draw a path for each river
-          rivers = riverGroup
-            .selectAll("path")
-            .data(json.features)
-            .enter()
-            .append("path")
-            .attr("d", path)
-            .attr("id", function(d, i) {
-              return d.properties.NAME.toLowerCase().split(' ').join('_');
-            }).attr("class", "river")
-
-        })
-*/
+        //API link goes below
         .defer(d3.tsv, "/static/unemployment.tsv", function(d) { unemployment.set(d.id, +d.rate); })
         .await(ready);
 
